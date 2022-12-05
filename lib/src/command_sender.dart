@@ -31,7 +31,8 @@ class CommandSender {
 
     var completer = Completer<dynamic>();
     _invokeCommandToResultMap[invokeId] = completer;
-    IsolateNameServer.lookupPortByName(_commandReceiverFullId)?.send(invokePacket);
+    var sendPort = IsolateNameServer.lookupPortByName(_commandReceiverFullId);
+    sendPort?.send(invokePacket);
     return await completer.future.timeout(_executionTimeout);
   }
 

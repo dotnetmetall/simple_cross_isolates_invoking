@@ -15,6 +15,9 @@ class CommandExecutor {
     _commandReceiverFullId = executorPrefix + id;
     _commandReceivePort = ReceivePort(_commandReceiverFullId);
     _commandReceivePort.listen(_onCommandReceive);
+    if (IsolateNameServer.lookupPortByName(_commandReceiverFullId) != null) {
+      IsolateNameServer.removePortNameMapping(_commandReceiverFullId);
+    }
     IsolateNameServer.registerPortWithName(_commandReceivePort.sendPort, _commandReceiverFullId);
   }
 
